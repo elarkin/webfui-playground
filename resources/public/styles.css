@@ -1,0 +1,24 @@
+div {
+   background-image:url('soccer_field.jpg');
+   height: 768px;
+   width: 1024px;
+}
+
+span {
+   position: absolute;
+   width: 100px;
+   height: 100px;
+   display: inline-block;
+   background-size: 100px 100px;
+}
+
+#ball {
+   background-image:url('Soccer_ball.svg');
+   z-index: 1;
+   -webkit-transition: top 0.5s, left 0.5s, -webkit-transform 0.5s;
+}
+
+#foot {
+   background-image:url('foot.png');
+   z-index: 0;
+}
