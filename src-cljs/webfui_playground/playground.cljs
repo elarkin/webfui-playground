@@ -11,6 +11,7 @@
 (defn adj [x]
   (- x 50))
 
+
 (defn center [style]
   (-> style
       (update-in [:top] adj)
@@ -29,12 +30,29 @@
 (defn abs [n]
   (.abs js/Math n))
 
+(defn bounded [position]
+  (let [[x y] position]
+    [(-> x
+         (max 50)
+         (min 974))
+     (-> y
+         (max 50)
+         (min 718))]))
+
+(defn new-ball-pos-given-diff [current-pos diff]
+  (let [real-magnitude (->> diff
+                            (map abs)
+                            (apply +))
+        adj-magnitude (max 100 (- 200 real-magnitude))
+        proportions (map #(/ % real-magnitude) diff)
+        adj-diff (map #(* % adj-magnitude) proportions)]
+    (bounded (map + current-pos adj-diff))))
+
 (defn move-ball [foot-pos ball-pos]
   (let [diff (map - ball-pos foot-pos)
-        x (first diff)
-        y (last diff)]
+        [x y] diff]
     (if (and (< (abs x) 100) (< (abs y) 100))
-      (map + ball-pos diff)
+      (new-ball-pos-given-diff ball-pos diff)
       ball-pos)))
 
 (defn new-ball-orientation [ball-orientation old-ball new-ball]
